@@ -8,12 +8,13 @@ public class RandomHelper {
 
     public static int getInt(int from, int to) {
         if(from < to) {
-            return random.nextInt(to - from) + from;
+            to = to - from + 1;
+            return random.nextInt(to) + from;
         }
         throw new IllegalArgumentException();
     }
 
     public static int getInt(int to) {
-            return random.nextInt(to);
+            return random.nextInt(to) + 1;
     }
 }
