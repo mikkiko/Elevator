@@ -17,9 +17,9 @@ public class ConsoleView implements View {
 
     @Override
     public void refresh() {
-        String builder = "\n     *****Step " +
+        String builder = "\n***************Step " +
                 ++step +
-                "*****\n" +
+                "***************\n" +
                 building.toString();
         ConsoleHelper.print(builder);
     }
