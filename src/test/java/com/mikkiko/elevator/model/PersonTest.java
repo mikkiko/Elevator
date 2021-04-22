@@ -6,28 +6,31 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PassengerTest {
+/**
+ * Unit test for {@link Person}.
+ */
+class PersonTest {
 
     @Test
-    @DisplayName("Passenger target floor can not be the same as current floor.")
+    @DisplayName("Person target floor can not be the same as current floor.")
     void shouldProbablyUpdateTargetFloor() {
         for (int i = 0; i < 100; i++) {
             int currentFloor = RandomHelper.getInt(20);
-            Passenger passenger = new Passenger(currentFloor, 20);
-            assertNotEquals(passenger.getTargetFloor(), currentFloor);
+            Person person = new Person(currentFloor, 20);
+            assertNotEquals(currentFloor, person.getTargetFloor());
 
             int newFloor = RandomHelper.getInt(20);
-            passenger.update(newFloor);
-            assertNotEquals(passenger.getTargetFloor(), newFloor);
+            person.updateTarget(newFloor);
+            assertNotEquals(newFloor, person.getTargetFloor());
         }
     }
 
     @Test
-    @DisplayName("Two passenger with the same target floor are equal and vice versa.")
-    void shouldProbablyEqualsPassengers() {
+    @DisplayName("Two people with the same target floor are equal and vice versa.")
+    void shouldProbablyEqualsPeople() {
         for (int i = 0; i < 100; i++) {
-            Passenger a = new Passenger(1, 5);
-            Passenger b = new Passenger(1, 5);
+            Person a = new Person(1, 5);
+            Person b = new Person(1, 5);
             if (a.equals(b))
                 assertEquals(a.getTargetFloor(), b.getTargetFloor());
             else

@@ -6,6 +6,9 @@ import java.util.List;
 import static com.mikkiko.elevator.model.Direction.DOWN;
 import static com.mikkiko.elevator.model.Direction.UP;
 
+/**
+ * The {@link Elevator} for transporting {@link Person}.
+ */
 public class Elevator {
 
     public Elevator(int maxFloor) {
@@ -19,7 +22,7 @@ public class Elevator {
     private int currentFloor;
     private int targetFloor;
     private Direction direction;
-    private final List<Passenger> passengers = new ArrayList<>();
+    private final List<Person> people = new ArrayList<>();
 
     public void move() {
         refreshDirection();
@@ -47,24 +50,24 @@ public class Elevator {
         }
     }
 
-    public void addPassenger(Passenger passenger) {
-        if (passengers.size() < 5) {
-            passengers.add(passenger);
+    public void addPerson(Person person) {
+        if (people.size() < 5) {
+            people.add(person);
             refreshDirection();
-            updateCurrentFloor(passenger.getTargetFloor());
+            updateCurrentFloor(person.getTargetFloor());
         }
     }
 
-    public Passenger getPassenger() {
-        Passenger passenger = passengers.stream()
+    public Person getPerson() {
+        Person person = people.stream()
                 .filter(p -> p.getTargetFloor() == currentFloor).findFirst()
                 .orElse(null);
-        passengers.remove(passenger);
-        return passenger;
+        people.remove(person);
+        return person;
     }
 
-    public int getFreePlaces() {
-        return 5 - passengers.size();
+    public boolean hasFreePlaces() {
+        return people.size() < 5;
     }
 
     private void updateCurrentFloor(int newPassengerTargetFloor) {
@@ -85,14 +88,14 @@ public class Elevator {
     }
 
     private void refreshDirection() {
-        if (!passengers.isEmpty()) {
-            if (passengers.stream().allMatch(passenger -> passenger.getTargetFloor() < currentFloor))
+        if (!people.isEmpty()) {
+            if (people.stream().allMatch(passenger -> passenger.getTargetFloor() < currentFloor))
                 direction = DOWN;
             else direction = UP;
         }else{
             if(currentFloor == MAX_FLOOR)
                 direction = DOWN;
-            else
+            if (currentFloor == 1)
                 direction = UP;
         }
     }
@@ -112,8 +115,8 @@ public class Elevator {
                 .append(direction.getSymbol())
                 .append("[");
         for (int i = 0; i < 5; i++) {
-            if (i < passengers.size())
-                builder.append(passengers.get(i));
+            if (i < people.size())
+                builder.append(people.get(i));
             else
                 builder.append("____");
         }

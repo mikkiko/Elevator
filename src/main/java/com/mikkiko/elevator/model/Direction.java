@@ -1,5 +1,8 @@
 package com.mikkiko.elevator.model;
 
+/**
+ * {@link Elevator} moves directions.
+ */
 public enum Direction {
     UP("/\\"),
     DOWN("\\/");

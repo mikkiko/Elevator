@@ -4,38 +4,41 @@ import com.mikkiko.elevator.utils.RandomHelper;
 
 import java.util.Objects;
 
-public class Passenger implements Comparable<Passenger>{
+/**
+ * {@link Elevator} user.
+ */
+public class Person implements Comparable<Person>{
 
     private final int MAX_FLOOR;
     private int currentFloor;
     private int targetFloor;
 
-    public Passenger(int currentFloor, int maxFloor) {
+    public Person(int currentFloor, int maxFloor) {
         this.MAX_FLOOR = maxFloor;
         this.currentFloor = currentFloor;
-        this.targetFloor = randomizeFloor();
+        this.targetFloor = getRandomFloor();
     }
 
     public Integer getTargetFloor() {
         return targetFloor;
     }
 
-    public void update(int currentFloor){
+    public void updateTarget(int currentFloor){
         this.currentFloor = currentFloor;
-        targetFloor = randomizeFloor();
+        targetFloor = getRandomFloor();
     }
 
-    private int randomizeFloor(){
+    private int getRandomFloor(){
         int random = RandomHelper.getInt(MAX_FLOOR);
-        return random == currentFloor ? randomizeFloor() : random;
+        return random == currentFloor ? getRandomFloor() : random;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Passenger passenger = (Passenger) o;
-        return targetFloor == passenger.targetFloor;
+        Person person = (Person) o;
+        return targetFloor == person.targetFloor;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class Passenger implements Comparable<Passenger>{
     }
 
     @Override
-    public int compareTo(Passenger o) {
+    public int compareTo(Person o) {
         return this.getTargetFloor() - o.getTargetFloor();
     }
 

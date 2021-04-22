@@ -9,6 +9,9 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit test for {@link RandomHelper}.
+ */
 class RandomHelperTest {
 
     @Test

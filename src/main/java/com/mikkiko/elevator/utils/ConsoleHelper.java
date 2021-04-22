@@ -4,23 +4,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Console helper.
+ */
 public class ConsoleHelper {
 
     public static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public static String readString() {
+    public static int readInt(String message, int min, int max) {
+        print(message);
         try {
-            return reader.readLine();
-        } catch (IOException e) {
-            return "Error";
-        }
-    }
-
-    public static int readInt() {
-        try {
-            return Integer.parseInt(reader.readLine());
-        } catch (IOException e) {
-            return 0;
+            int num = Integer.parseInt(reader.readLine());
+            if (num < min || max < num)
+                throw new NumberFormatException();
+            return num;
+        } catch (IOException | NumberFormatException e) {
+            System.out.print("Incorrect input. Try again.");
+            return readInt("", min, max);
         }
     }
 

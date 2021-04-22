@@ -5,40 +5,60 @@ import com.mikkiko.elevator.utils.RandomHelper;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Building with an {@link Elevator} and {@link Floor}s.
+ */
 public class Building {
 
-    public final int NUMBER_OF_FLOORS = RandomHelper.getInt(5, 20);
+    public final int NUMBER_OF_FLOORS;
     public String emptyElevator = "";
 
     private final Map<Integer, Floor> floors = new TreeMap<>();
-    private final Elevator elevator;
+    private Elevator elevator;
+    private Floor currentFloor;
 
     public Building() {
+        this.NUMBER_OF_FLOORS = RandomHelper.getInt(5, 20);
+        init();
+    }
+
+    public Building(int maxFloor) {
+        this.NUMBER_OF_FLOORS = maxFloor < 5 ? RandomHelper.getInt(5, 20) : maxFloor;
+        init();
+    }
+
+    private void init() {
         this.elevator = new Elevator(NUMBER_OF_FLOORS);
+
         for (int i = 1; i <= NUMBER_OF_FLOORS; i++) {
             floors.put(i, new Floor(i, NUMBER_OF_FLOORS));
         }
+        this.currentFloor = floors.get(elevator.getCurrentFloor());
+
         for (int i = 0; i < 24; i++) {
             emptyElevator += (" ");
         }
     }
 
-    public void moveTheElevator() {
-        Floor currentFloor = floors.get(elevator.getCurrentFloor());
+    public void moveTheElevator(){
+        elevator.move();
+        currentFloor = floors.get(elevator.getCurrentFloor());
+    }
 
-        for (Passenger passenger; (passenger = elevator.getPassenger()) != null;){
-            currentFloor.addPassenger(passenger);
-        }
-
-        while (elevator.getFreePlaces() > 0) {
-            Passenger passenger = currentFloor.getPassenger(elevator.getDirection(), elevator.getFreePlaces());
-            if (passenger != null)
-                elevator.addPassenger(passenger);
+    public void loading() {
+        while (elevator.hasFreePlaces()) {
+            Person person = currentFloor.getPerson(elevator.getDirection());
+            if (person != null)
+                elevator.addPerson(person);
             else break;
         }
+        currentFloor.updatePeople();
+    }
 
-        currentFloor.updatePassengers();
-        elevator.move();
+    public void unloading() {
+        for (Person person; (person = elevator.getPerson()) != null; ) {
+            currentFloor.addPerson(person);
+        }
     }
 
     @Override

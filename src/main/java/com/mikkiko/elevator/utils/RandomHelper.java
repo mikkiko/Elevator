@@ -2,6 +2,9 @@ package com.mikkiko.elevator.utils;
 
 import java.util.Random;
 
+/**
+ * Random number generator.
+ */
 public class RandomHelper {
 
     private static final Random random = new Random();
