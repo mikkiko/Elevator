@@ -1,19 +1,21 @@
-package com.mikkiko.elevator.building;
+package com.mikkiko.elevator.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mikkiko.elevator.building.Direction.DOWN;
-import static com.mikkiko.elevator.building.Direction.UP;
+import static com.mikkiko.elevator.model.Direction.DOWN;
+import static com.mikkiko.elevator.model.Direction.UP;
 
 public class Elevator {
 
-    public Elevator() {
+    public Elevator(int maxFloor) {
+        this.MAX_FLOOR = maxFloor;
         this.direction = UP;
         this.currentFloor = 1;
         this.targetFloor = 1;
     }
 
+    private final int MAX_FLOOR;
     private int currentFloor;
     private int targetFloor;
     private Direction direction;
@@ -23,17 +25,21 @@ public class Elevator {
         refreshDirection();
         switch (direction) {
             case UP: {
-                if (currentFloor != Building.NUMBER_OF_FLOORS)
+                if (currentFloor != MAX_FLOOR)
                     this.currentFloor++;
-                else
+                else {
                     direction = DOWN;
+                    this.currentFloor--;
+                }
                 break;
             }
             case DOWN: {
-                if (currentFloor > 1)
+                if (currentFloor != 1)
                     this.currentFloor--;
-                else
+                else {
                     direction = UP;
+                    this.currentFloor++;
+                }
                 break;
             }
             default:
@@ -57,8 +63,8 @@ public class Elevator {
         return passenger;
     }
 
-    public boolean hasFreePlace() {
-        return passengers.size() < 5;
+    public int getFreePlaces() {
+        return 5 - passengers.size();
     }
 
     private void updateCurrentFloor(int newPassengerTargetFloor) {
@@ -83,6 +89,11 @@ public class Elevator {
             if (passengers.stream().allMatch(passenger -> passenger.getTargetFloor() < currentFloor))
                 direction = DOWN;
             else direction = UP;
+        }else{
+            if(currentFloor == MAX_FLOOR)
+                direction = DOWN;
+            else
+                direction = UP;
         }
     }
 
@@ -91,7 +102,8 @@ public class Elevator {
     }
 
     public Direction getDirection() {
-        return this.direction;
+        refreshDirection();
+        return direction;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.mikkiko.elevator.view;
 
-import com.mikkiko.elevator.building.Building;
+import com.mikkiko.elevator.model.Building;
 import com.mikkiko.elevator.utils.ConsoleHelper;
 
 public class ConsoleView implements View {
@@ -14,7 +14,7 @@ public class ConsoleView implements View {
 
     @Override
     public void refresh() {
-        String builder = "\n*****Step " +
+        String builder = "\n     *****Step " +
                 step++ +
                 "*****\n" +
                 building.toString();
@@ -23,7 +23,7 @@ public class ConsoleView implements View {
 
     @Override
     public void introducing() {
-        ConsoleHelper.print("<--- Press SPACE start or stop the program. --->");
+        ConsoleHelper.print("<--- Program started. --->");
     }
 
     @Override

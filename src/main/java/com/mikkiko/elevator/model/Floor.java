@@ -1,4 +1,4 @@
-package com.mikkiko.elevator.building;
+package com.mikkiko.elevator.model;
 
 import com.mikkiko.elevator.utils.RandomHelper;
 
@@ -12,21 +12,24 @@ public class Floor implements Comparable<Floor> {
     private final List<Passenger> passengers = new ArrayList<>();
     private final List<Passenger> newPassengers = new ArrayList<>();
 
-    public Floor(int floor) {
+    public Floor(int floor, int maxFloor) {
         this.floor = floor;
         int random = RandomHelper.getInt(10);
         for (int i = 0; i < random; i++) {
-            passengers.add(new Passenger(floor));
+            passengers.add(new Passenger(floor, maxFloor));
         }
     }
 
-    public Passenger getPassenger(Direction direction) {
+    public Passenger getPassenger(Direction direction, int freePlaces) {
         List<Passenger> resultPassengers = null;
-        if (direction.equals(Direction.UP))
-            resultPassengers = passengers.stream().filter(p -> p.getTargetFloor() > floor).collect(Collectors.toList());
-        if (direction.equals(Direction.DOWN))
-            resultPassengers = passengers.stream().filter(p -> p.getTargetFloor() < floor).collect(Collectors.toList());
-
+        if (freePlaces == 5) {
+            resultPassengers = passengers;
+        } else {
+            if (direction.equals(Direction.UP))
+                resultPassengers = passengers.stream().filter(p -> p.getTargetFloor() > floor).collect(Collectors.toList());
+            if (direction.equals(Direction.DOWN))
+                resultPassengers = passengers.stream().filter(p -> p.getTargetFloor() < floor).collect(Collectors.toList());
+        }
         if (resultPassengers == null || resultPassengers.isEmpty())
             return null;
         else {

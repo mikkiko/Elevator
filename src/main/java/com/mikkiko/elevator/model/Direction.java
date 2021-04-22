@@ -1,10 +1,10 @@
-package com.mikkiko.elevator.building;
+package com.mikkiko.elevator.model;
 
 public enum Direction {
     UP("/\\"),
     DOWN("\\/");
 
-    private String symbol;
+    private final String symbol;
 
     Direction(String symbol){
         this.symbol = symbol;

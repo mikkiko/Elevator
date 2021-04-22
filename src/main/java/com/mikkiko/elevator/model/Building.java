@@ -1,4 +1,4 @@
-package com.mikkiko.elevator.building;
+package com.mikkiko.elevator.model;
 
 import com.mikkiko.elevator.utils.RandomHelper;
 
@@ -7,16 +7,19 @@ import java.util.TreeMap;
 
 public class Building {
 
-    public static final int NUMBER_OF_FLOORS = RandomHelper.getInt(5, 20);
-    public String emptyElevator = initEmptyElevator();
+    public final int NUMBER_OF_FLOORS = RandomHelper.getInt(5, 20);
+    public String emptyElevator = "";
 
     private final Map<Integer, Floor> floors = new TreeMap<>();
     private final Elevator elevator;
 
     public Building() {
-        this.elevator = new Elevator();
+        this.elevator = new Elevator(NUMBER_OF_FLOORS);
         for (int i = 1; i <= NUMBER_OF_FLOORS; i++) {
-            floors.put(i, new Floor(i));
+            floors.put(i, new Floor(i, NUMBER_OF_FLOORS));
+        }
+        for (int i = 0; i < 24; i++) {
+            emptyElevator += (" ");
         }
     }
 
@@ -27,8 +30,8 @@ public class Building {
             currentFloor.addPassenger(passenger);
         }
 
-        while (elevator.hasFreePlace()) {
-            Passenger passenger = currentFloor.getPassenger(elevator.getDirection());
+        while (elevator.getFreePlaces() > 0) {
+            Passenger passenger = currentFloor.getPassenger(elevator.getDirection(), elevator.getFreePlaces());
             if (passenger != null)
                 elevator.addPassenger(passenger);
             else break;
@@ -36,14 +39,6 @@ public class Building {
 
         currentFloor.updatePassengers();
         elevator.move();
-    }
-
-    private String initEmptyElevator() {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < 24; i++) {
-            str.append(" ");
-        }
-        return str.toString();
     }
 
     @Override

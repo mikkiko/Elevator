@@ -1,6 +1,6 @@
 package com.mikkiko.elevator.controller;
 
-import com.mikkiko.elevator.building.Building;
+import com.mikkiko.elevator.model.Building;
 import com.mikkiko.elevator.view.View;
 
 public class Controller{

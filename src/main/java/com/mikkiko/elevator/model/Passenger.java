@@ -1,4 +1,4 @@
-package com.mikkiko.elevator.building;
+package com.mikkiko.elevator.model;
 
 import com.mikkiko.elevator.utils.RandomHelper;
 
@@ -6,10 +6,12 @@ import java.util.Objects;
 
 public class Passenger implements Comparable<Passenger>{
 
+    private final int MAX_FLOOR;
     private int currentFloor;
     private int targetFloor;
 
-    public Passenger(int currentFloor) {
+    public Passenger(int currentFloor, int maxFloor) {
+        this.MAX_FLOOR = maxFloor;
         this.currentFloor = currentFloor;
         this.targetFloor = randomizeFloor();
     }
@@ -24,7 +26,7 @@ public class Passenger implements Comparable<Passenger>{
     }
 
     private int randomizeFloor(){
-        int random = RandomHelper.getInt(Building.NUMBER_OF_FLOORS);
+        int random = RandomHelper.getInt(MAX_FLOOR);
         return random == currentFloor ? randomizeFloor() : random;
     }
 
