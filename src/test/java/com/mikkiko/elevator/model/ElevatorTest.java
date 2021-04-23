@@ -23,7 +23,7 @@ class ElevatorTest extends AbstractBuildingTest {
 
     @BeforeEach
     void setUp() {
-        this.elevator = new Elevator(MAX_FLOOR);
+        this.elevator = new Elevator(5, MAX_FLOOR);
     }
 
     @Test
@@ -45,7 +45,7 @@ class ElevatorTest extends AbstractBuildingTest {
 
         Person person = new Person(5, MAX_FLOOR);
         injectPersonTarget(person, 4);
-        elevator.addPerson(person);
+        elevator.addPassenger(person);
         assertEquals(DOWN, elevator.getDirection());
     }
 
@@ -56,10 +56,10 @@ class ElevatorTest extends AbstractBuildingTest {
         List<Person> peopleInElevator = injectListPeopleInElevatorAndGet(
                 elevator, getInitPeopleList());
 
-        Person person = elevator.getPerson();
+        Person person = elevator.getPassenger();
         assertTrue(person != null && person.getTargetFloor() == 5);
         assertEquals(4, peopleInElevator.size());
-        assertNull(elevator.getPerson());
+        assertNull(elevator.getPassenger());
     }
 
     @Test

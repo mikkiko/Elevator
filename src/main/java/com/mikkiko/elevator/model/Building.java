@@ -11,7 +11,7 @@ import java.util.TreeMap;
 public class Building {
 
     public final int NUMBER_OF_FLOORS;
-    public String emptyElevator = "";
+    public String emptyElevator = getEmptyElevator();
 
     private final Map<Integer, Floor> floors = new TreeMap<>();
     private Elevator elevator;
@@ -28,16 +28,12 @@ public class Building {
     }
 
     private void init() {
-        this.elevator = new Elevator(NUMBER_OF_FLOORS);
+        this.elevator = new Elevator(5, NUMBER_OF_FLOORS);
 
         for (int i = 1; i <= NUMBER_OF_FLOORS; i++) {
             floors.put(i, new Floor(i, NUMBER_OF_FLOORS));
         }
         this.currentFloor = floors.get(elevator.getCurrentFloor());
-
-        for (int i = 0; i < 24; i++) {
-            emptyElevator += (" ");
-        }
     }
 
     public void moveTheElevator(){
@@ -49,16 +45,24 @@ public class Building {
         while (elevator.hasFreePlaces()) {
             Person person = currentFloor.getPerson(elevator.getDirection());
             if (person != null)
-                elevator.addPerson(person);
+                elevator.addPassenger(person);
             else break;
         }
         currentFloor.updatePeople();
     }
 
     public void unloading() {
-        for (Person person; (person = elevator.getPerson()) != null; ) {
+        for (Person person; (person = elevator.getPassenger()) != null; ) {
             currentFloor.addPerson(person);
         }
+    }
+
+    private String getEmptyElevator(){
+        String result = "";
+        for (int i = 0; i < 24; i++) {
+            result += (" ");
+        }
+        return result;
     }
 
     @Override
