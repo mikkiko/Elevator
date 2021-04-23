@@ -2,7 +2,7 @@
 My implementation of test task "Elevator in building".  
 
 The building consists *n* number of floors, where *n* - is a random number generated at the start of the program in the range 5 <= *n* <= 20.
-Each floor consists *K* number of people, where *k* - is a random number generated at the start of the program in the range 0 <= *k* <= 10.
+Each floor consists *k* number of people, where *k* - is a random number generated at the start of the program in the range 0 <= *k* <= 10.
 
 Each passenger wants to arrive to a target floor which not equal to current.
 Each floor has two buttons for calling the elevator "Up" and "Down", but not the lower and upper floors.
