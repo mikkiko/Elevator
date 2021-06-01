@@ -29,7 +29,7 @@ public abstract class AbstractBuildingTest {
     }
 
     List<Person> injectListPeopleInElevatorAndGet(Elevator elevator, List<Person> personList) {
-        return (List<Person>) getPrivateFieldWithValue(elevator, "people", personList);
+        return (List<Person>) getPrivateFieldWithValue(elevator, "passengers", personList);
     }
 
     void setElevatorDirection(Elevator elevator, Direction direction) {
